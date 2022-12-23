@@ -29,6 +29,15 @@ Thumbprint                                Subject
 
 Reference: https://learn.microsoft.com/en-us/powershell/module/pki/new-selfsignedcertificate?view=windowsserver2022-ps
 
+5. Export the file using command
+
+Get-ChildItem -Path cert:\localMachine\my\{your-thumbprint-goes-here} | Export-PfxCertificate -FilePath C:\mypfx.pfx -Password $pwd
+
+E.g. Get-ChildItem -Path cert:\localMachine\my\7737B046EC17BEBAC2187BC649464B245105ED86 | Export-PfxCertificate -FilePath C:\mypfx.pfx -Password $pwd
+
+
+OR you can export from certificate story from local
+
 
 5. Now, open system certificate by typing "manage computer certificate" from control panel
 
