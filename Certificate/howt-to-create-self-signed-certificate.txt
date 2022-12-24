@@ -1,0 +1,68 @@
+Follow the below instruction to create self signed certificate for development purpose
+
+
+1. Open powershell command as administrator. 
+
+if you do not have powershell installed, use this link to install. 
+
+https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.3
+
+2. run this command in powershell
+
+$cert = New-SelfSignedCertificate -DnsName "www.learnsmartcoding.com", "www.learnsmartcoding.com" -CertStoreLocation "cert:\LocalMachine\My"
+
+
+3. run this command in powershell
+
+$pwd = ConvertTo-SecureString -String ‘Test@123’ -Force -AsPlainText
+
+
+4. to see the thumbprint run below 
+ $cert
+
+e.g.
+
+Thumbprint                                Subject
+----------                                -------
+7737B046EC17BEBAC2187BC649464B245105ED86  CN=www.learnsmartcoding.com
+
+
+Reference: https://learn.microsoft.com/en-us/powershell/module/pki/new-selfsignedcertificate?view=windowsserver2022-ps
+
+5. Export the file using command
+
+Get-ChildItem -Path cert:\localMachine\my\{your-thumbprint-goes-here} | Export-PfxCertificate -FilePath C:\mypfx.pfx -Password $pwd
+
+E.g. Get-ChildItem -Path cert:\localMachine\my\7737B046EC17BEBAC2187BC649464B245105ED86 | Export-PfxCertificate -FilePath C:\mypfx.pfx -Password $pwd
+
+
+OR you can export from certificate story from local
+
+
+5. Now, open system certificate by typing "manage computer certificate" from control panel
+
+6. Under personal=> certificates, you can see the certificate you created in above steps
+
+7. Right click on the certificate and export the certificate. While you give you will have to provide the password that was used in above step.
+
+8. The exported file will be saved with extension ".pfx"
+
+
+
+Certificate generation instructions
+
+1. Download Open SSL from the link: https://slproweb.com/products/Win32OpenSSL.html
+2. Install Open SSL
+3. Set system environment variable for Open SSL, open system variables, select "Path" variable and click "Edit" button. Add path to the "bin" folder where Open SSL was installed (like: C:\Program Files\OpenSSL-Win64\bin)
+3. Open command line
+4. Type: SET pwd=Test@123
+5. Type: SET pfxFilePath= C:\Temp\cert\learnsmartcoding-cert.pfx
+6. openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privateKey.key -out selfsigncert.crt -subj /CN=localhost
+7. openssl pkcs12 -export -out %pfxFilePath% -inkey privateKey.key -in selfsigncert.crt -password pass:%pwd%
+8. openssl pkcs12 -in C:\Temp\cert\learnsmartcoding-cert.pfx -out C:\Temp\cert\learnsmartcoding-cert.pem -nodes
+9. Type certificate password again.
+10. pem certificate file should be created in the same directory
+
+
+
+
