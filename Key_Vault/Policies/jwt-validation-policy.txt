@@ -1,0 +1,23 @@
+<policies>
+    <inbound>
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
+            <openid-config url="https://learnsmartcodingdemo.b2clogin.com/learnsmartcodingdemo.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_SingUpSingIn" />
+            <audiences>
+                <audience>58eca19c-3b3d-4678-972f-22484e77e3e6</audience>
+            </audiences>
+            <issuers>
+                <issuer>https://learnsmartcodingdemo.b2clogin.com/a55f3606-2e79-4b89-a529-2cffd8ba2c3e/v2.0/</issuer>
+            </issuers>
+        </validate-jwt>
+        <base />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
